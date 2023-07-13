@@ -1,0 +1,78 @@
+server:
+  port: 8081
+  tomcat:
+    accesslog:
+      enabled: true
+      directory: logs
+      suffix: .log
+      prefix: access_log
+      file-date-format: .yyyy-MM-dd
+      pattern: "%{yyyy-MM-dd HH:mm:ss}t %s %r %{User-Agent}i %{Referer}i %a %b %D"
+
+#swagger
+springdoc:
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    path: /swagger.html
+    enabled: true
+    operationsSorter: alpha
+    disable-swagger-default-url: true
+    display-request-duration: true    #try it out 했을 때 request duration 을 추가로 찍어줌
+    doc-expansion : none    # api탭을 모두 접어둠
+  #    groups-order: DESC
+  api-docs:
+    enabled: true
+    path: /api-docs
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: futureroi
+    url: jdbc:mysql://localhost:3306/futureroi?serverTimezone=UTC&characterEncoding=UTF-8
+    password: "futureroi123456"
+  jpa:
+    properties:
+      hibernate:
+        format_sql: 'true'
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-secret: 2pjEyvxfFqneHxwelEwy1Ron9nRdCBr4
+            redirect-uri: http://localhost:8080/oauth2/callback/kakao
+            authorization-grant-type: authorization_code
+            client-id: 3d14807b0b451bd6893386270fd4f310
+            scope: account_email
+            client-name: kakao
+            client-authentication-method: POST
+        provider:
+          kakao:
+            user-name-attribute: id
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+jwt:
+  token:
+    secret-key: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHN
+  access-token:
+    expire-length: 1800000
+  refresh-token:
+    expire-length: 1209600000
+  authorizedRedirectUri : http://localhost:8080/login/auth
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace
+
+kakao:
+  location:
+    api-key: 3d14807b0b451bd6893386270fd4f310
