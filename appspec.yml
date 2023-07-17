@@ -5,6 +5,7 @@ files:
   - source:  /
     destination: /home/ubuntu/app
     overwrite: yes
+file_exists_behavior: OVERWRITE
 
 permissions:
   - object: /
@@ -21,3 +22,4 @@ hooks:
     - location: scripts/start.sh
       timeout: 60
       runas: ubuntu
+
