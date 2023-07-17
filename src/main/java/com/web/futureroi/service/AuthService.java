@@ -50,8 +50,10 @@ public class AuthService {
 
         String email = getMemberInfoByAccessToken(socialToken, provider);
         System.out.println("3");
-
+        System.out.println(email);
         if(email == null){
+            System.out.println("33");
+
             throw new BaseException(ApiCode.INVALID_USER_JWT);
         }
         System.out.println("4");
