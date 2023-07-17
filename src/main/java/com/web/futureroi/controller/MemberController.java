@@ -1,6 +1,7 @@
 package com.web.futureroi.controller;
 
 import com.web.futureroi.common.CommController;
+import com.web.futureroi.dto.member.MemberInfoResDto;
 import com.web.futureroi.dto.member.MemberModifyReqDto;
 import com.web.futureroi.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,21 +22,21 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController extends CommController {
 
     private final MemberService memberService;
-//
-//    @Operation(summary = "맴버 정보 업데이트", responses = {@ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MemberModifyReqDto.class)))})
-//    @PutMapping()
-//    public ResponseEntity modifyMemberInfo(@AuthenticationPrincipal User user, @RequestBody MemberModifyReqDto reqDto){
-//        reqDto.setMemberId(Long.valueOf((user.getUsername())));
-//        return SuccessReturn(memberService.modifyMemberInfo(reqDto));
-//    }
+
+    @Operation(summary = "맴버 정보 업데이트", responses = {@ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MemberModifyReqDto.class)))})
+    @PutMapping()
+    public ResponseEntity modifyMemberInfo(@AuthenticationPrincipal User user, @RequestBody MemberModifyReqDto reqDto){
+        reqDto.setUuid(user.getUsername());
+        return SuccessReturn(memberService.modifyMemberInfo(reqDto));
+    }
 
 
-//    @Operation(summary = "맴버 정보 조회", responses = { @ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MemberInfoResDto.class)))})
-//    @GetMapping("/info")
-//    public ResponseEntity findMemberInfo(@AuthenticationPrincipal User user){
-//        long memberId = Long.valueOf((user.getUsername()));
-//        return SuccessReturn(memberService.findMemberInfo(memberId));
-//    }
+    @Operation(summary = "맴버 정보 조회", responses = { @ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MemberInfoResDto.class)))})
+    @GetMapping("/info")
+    public ResponseEntity findMemberInfo(@AuthenticationPrincipal User user){
+        String uuid = user.getUsername();
+        return SuccessReturn(memberService.findMemberInfo(uuid));
+    }
 
 
 

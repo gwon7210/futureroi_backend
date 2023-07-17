@@ -3,11 +3,9 @@ package com.web.futureroi.domain.member;
 
 import com.web.futureroi.common.RegisterDateBaseTimeEntity;
 import com.web.futureroi.dto.member.MemberModifyReqDto;
-import com.web.futureroi.enums.AuthProvider;
 import com.web.futureroi.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
-
 
 @Getter
 @Entity
@@ -26,12 +24,21 @@ public class Member extends RegisterDateBaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     private Role role;
-//
-//    public Member modify(MemberModifyReqDto reqDto) {
-//        this.nickname = reqDto.getNickname();
-//        this.location = reqDto.getLocation();
-//        return this;
-//    }
+
+    private String job;
+
+    private String gender;
+
+    private String birth;
+
+
+    public Member modify(MemberModifyReqDto reqDto) {
+        this.uuid = reqDto.getUuid();
+        this.job = reqDto.getJob();
+        this.gender = reqDto.getGender();
+        this.birth = reqDto.getBirth();
+        return this;
+    }
 
 
 }
