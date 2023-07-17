@@ -14,6 +14,7 @@ class FutureroiApplicationTests {
 
     @Test
     void contextLoads() throws IOException {
+        //test
         String accessToken = "SBauJj9dwg8e4Pt-Oonmb4Li0-pqKSxhpAoMchc_Cj1zGAAAAYlIhRyz";
         String apiUrl = "https://kapi.kakao.com/v2/user/me";
 
