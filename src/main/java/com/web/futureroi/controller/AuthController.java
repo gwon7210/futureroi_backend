@@ -19,8 +19,9 @@ public class AuthController extends CommController {
 
     @PostMapping("/login/{provider}")
     public ResponseEntity socialLogin(@RequestHeader(value="Authorization") String socialToken, @PathVariable String provider) throws BaseException {
-//        TokenInfo tokenInfo = authService.socialLogin(socialToken, provider);
-        return SuccessReturn();
+        System.out.println("1");
+        TokenInfo tokenInfo = authService.socialLogin(socialToken, provider);
+        return SuccessReturn(tokenInfo);
     }
 
 
