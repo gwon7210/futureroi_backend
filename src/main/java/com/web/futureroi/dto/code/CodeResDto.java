@@ -24,8 +24,6 @@ public class CodeResDto {
     @Schema(description = "코드 설명")
     private String codeDescription;
 
-    @Schema(description = "코드 등록일")
-    private String registerDate;
 
 
     public CodeResDto(Code entity){
@@ -36,7 +34,6 @@ public class CodeResDto {
         this.codeOrderNo = entity.getCodeOrderNo();
         this.isUse = entity.getIsUse();
         this.codeDescription = entity.getCodeDescription();
-//        this.registerDate = String.valueOf(entity.getRegisterDate());
     }
 
 }
