@@ -105,7 +105,7 @@ public class AuthService {
     public String getMemberInfoByAccessToken(String accessToken, String provider) {
 
         String email = null;
-
+        System.out.println("111");
         try {
             switch (provider) {
                 case "kakao":
@@ -113,6 +113,8 @@ public class AuthService {
                     break;
             }
         }catch (Exception e){
+            System.out.println("222");
+
             log.error(e.getMessage());
         }
 
