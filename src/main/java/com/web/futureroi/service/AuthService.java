@@ -44,70 +44,61 @@ public class AuthService {
     SocialLoginUtils socialLoginUtils;
 
     @Transactional
-    public TokenInfo socialLogin(String socialToken, String provider) throws BaseException {
+    public void socialLogin(String socialToken, String provider) throws BaseException {
 
-        System.out.println("2");
+        try {
+            String email = getMemberInfoByAccessToken(socialToken, provider);
 
-        String email = getMemberInfoByAccessToken(socialToken, provider);
-        System.out.println("3");
+            if (email == null) {
+                throw new BaseException(ApiCode.INVALID_USER_JWT);
+            }
 
-        if(email == null){
-            throw new BaseException(ApiCode.INVALID_USER_JWT);
+            //가입 유저 체크
+            Member member = memberService.findByEmailAndAuthProvider(email, provider);
+
+            //회원정보가 없다면 가입시켜준다.
+            if (member == null) {
+                String uuid = UUID.randomUUID().toString();
+                member = memberService.registerMember(uuid, provider, email);
+            }
+
+            Date now = new Date();
+            List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(Role.ROLE_USER.name()));
+
+            byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+            Key key = Keys.hmacShaKeyFor(keyBytes);
+
+            String accessToken = Jwts.builder()
+                    .setSubject(member.getUuid())
+                    .claim(AUTHORITIES_KEY, authorities)
+                    .claim("type", TYPE_ACCESS)
+                    .setIssuedAt(now)   //토큰 발행 시간 정보
+                    .setExpiration(new Date(now.getTime() + JwtExpireTime.ACCESS_TOKEN_EXPIRE_TIME))  //토큰 만료 시간 설정
+                    .signWith(key, SignatureAlgorithm.HS256)
+                    .compact();
+
+            //Generate RefreshToken
+            String refreshToken = Jwts.builder()
+                    .claim("type", TYPE_REFRESH)
+                    .setIssuedAt(now)   //토큰 발행 시간 정보
+                    .setExpiration(new Date(now.getTime() + JwtExpireTime.REFRESH_TOKEN_EXPIRE_TIME)) //토큰 만료 시간 설정
+                    .signWith(key, SignatureAlgorithm.HS256)
+                    .compact();
+
+            TokenInfo tokenInfo = TokenInfo.builder()
+                    .grantType(BEARER_TYPE)
+                    .accessToken(accessToken)
+                    .accessTokenExpirationTime(JwtExpireTime.ACCESS_TOKEN_EXPIRE_TIME)
+                    .refreshToken(refreshToken)
+                    .refreshTokenExpirationTime(JwtExpireTime.REFRESH_TOKEN_EXPIRE_TIME)
+                    .build();
+
+            redisTemplate.opsForValue()
+                    .set("RT:" + member.getUuid(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
         }
-        System.out.println("4");
-
-        //가입 유저 체크
-        Member member = memberService.findByEmailAndAuthProvider(email,provider);
-        System.out.println("5");
-
-        //회원정보가 없다면 가입시켜준다.
-        if(member==null){
-            String uuid = UUID.randomUUID().toString();
-            member = memberService.registerMember(uuid, provider, email);
-        }
-        System.out.println("6");
-
-        Date now = new Date();
-        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(Role.ROLE_USER.name()));
-        System.out.println("7");
-
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
-        Key key = Keys.hmacShaKeyFor(keyBytes);
-        System.out.println("8");
-
-        String accessToken = Jwts.builder()
-                .setSubject(member.getUuid())
-                .claim(AUTHORITIES_KEY, authorities)
-                .claim("type", TYPE_ACCESS)
-                .setIssuedAt(now)   //토큰 발행 시간 정보
-                .setExpiration(new Date(now.getTime() + JwtExpireTime.ACCESS_TOKEN_EXPIRE_TIME))  //토큰 만료 시간 설정
-                .signWith(key, SignatureAlgorithm.HS256)
-                .compact();
-        System.out.println("9");
-
-        //Generate RefreshToken
-        String refreshToken = Jwts.builder()
-                .claim("type", TYPE_REFRESH)
-                .setIssuedAt(now)   //토큰 발행 시간 정보
-                .setExpiration(new Date(now.getTime() + JwtExpireTime.REFRESH_TOKEN_EXPIRE_TIME)) //토큰 만료 시간 설정
-                .signWith(key, SignatureAlgorithm.HS256)
-                .compact();
-        System.out.println("10");
-
-        TokenInfo tokenInfo =  TokenInfo.builder()
-                .grantType(BEARER_TYPE)
-                .accessToken(accessToken)
-                .accessTokenExpirationTime(JwtExpireTime.ACCESS_TOKEN_EXPIRE_TIME)
-                .refreshToken(refreshToken)
-                .refreshTokenExpirationTime(JwtExpireTime.REFRESH_TOKEN_EXPIRE_TIME)
-                .build();
-        System.out.println("11");
-
-        redisTemplate.opsForValue()
-                .set("RT:" + member.getUuid(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
-        System.out.println("12");
-
-        return tokenInfo;
+//        return tokenInfo;
     }
 
 
