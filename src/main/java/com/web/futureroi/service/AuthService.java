@@ -51,7 +51,7 @@ public class AuthService {
         String email = getMemberInfoByAccessToken(socialToken, provider);
         System.out.println(email);
         if(email == null){
-            throw new BaseException(ApiCode.INVALID_USER_JWT);
+            throw new BaseException(ApiCode.INVALID_SOCIAL_USER);
         }
 
         //가입 유저 체크
@@ -102,10 +102,9 @@ public class AuthService {
 
 
 
-    public String getMemberInfoByAccessToken(String accessToken, String provider) {
+    public String getMemberInfoByAccessToken(String accessToken, String provider) throws BaseException {
 
         String email = null;
-        System.out.println("111");
         try {
             switch (provider) {
                 case "kakao":
@@ -113,8 +112,6 @@ public class AuthService {
                     break;
             }
         }catch (Exception e){
-            System.out.println("222");
-
             log.error(e.getMessage());
         }
 

@@ -14,6 +14,8 @@ public enum ApiCode {
     EMPTY_JWT(2001, "JWT를 입력해주세요."),
     INVALID_JWT( 2002, "유효하지 않은 JWT입니다."),
     INVALID_USER_JWT(2003,"권한이 없는 맴버의 접근입니다."),
+    INVALID_SOCIAL_USER(2004, "권한이 없는 맴버의 접근입니다."),
+
 
     // ------------------------FUNCTION----------------------------
     
