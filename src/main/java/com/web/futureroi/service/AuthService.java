@@ -12,6 +12,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -27,6 +28,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class AuthService {
 
@@ -111,7 +113,7 @@ public class AuthService {
                     break;
             }
         }catch (Exception e){
-
+            log.error(e.getMessage());
         }
 
         return email;
