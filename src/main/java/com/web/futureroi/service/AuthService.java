@@ -49,7 +49,7 @@ public class AuthService {
     public TokenInfo socialLogin(String socialToken, String provider) throws BaseException {
 
         String email = getMemberInfoByAccessToken(socialToken, provider);
-        System.out.println(email);
+
         if(email == null){
             throw new BaseException(ApiCode.INVALID_SOCIAL_USER);
         }
