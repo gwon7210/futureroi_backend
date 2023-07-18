@@ -47,33 +47,27 @@ public class AuthService {
 
     @Transactional
     public TokenInfo socialLogin(String socialToken, String provider) throws BaseException {
-        System.out.println("1");
+
         String email = getMemberInfoByAccessToken(socialToken, provider);
         System.out.println(email);
-
         if(email == null){
             throw new BaseException(ApiCode.INVALID_SOCIAL_USER);
         }
-        System.out.println("2");
 
         //가입 유저 체크
         Member member = memberService.findByEmailAndAuthProvider(email,provider);
-        System.out.println("3");
 
         //회원정보가 없다면 가입시켜준다.
         if(member==null){
             String uuid = UUID.randomUUID().toString();
             member = memberService.registerMember(uuid, provider, email);
         }
-        System.out.println("4");
 
         Date now = new Date();
         List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(Role.ROLE_USER.name()));
-        System.out.println("5");
 
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         Key key = Keys.hmacShaKeyFor(keyBytes);
-        System.out.println("6");
 
         String accessToken = Jwts.builder()
                 .setSubject(member.getUuid())
@@ -83,7 +77,6 @@ public class AuthService {
                 .setExpiration(new Date(now.getTime() + JwtExpireTime.ACCESS_TOKEN_EXPIRE_TIME))  //토큰 만료 시간 설정
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
-        System.out.println("7");
 
         //Generate RefreshToken
         String refreshToken = Jwts.builder()
@@ -92,7 +85,6 @@ public class AuthService {
                 .setExpiration(new Date(now.getTime() + JwtExpireTime.REFRESH_TOKEN_EXPIRE_TIME)) //토큰 만료 시간 설정
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
-        System.out.println("8");
 
         TokenInfo tokenInfo =  TokenInfo.builder()
                 .grantType(BEARER_TYPE)
@@ -101,11 +93,9 @@ public class AuthService {
                 .refreshToken(refreshToken)
                 .refreshTokenExpirationTime(JwtExpireTime.REFRESH_TOKEN_EXPIRE_TIME)
                 .build();
-        System.out.println("9");
 
         redisTemplate.opsForValue()
                 .set("RT:" + member.getUuid(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
-        System.out.println("10");
 
         return tokenInfo;
     }
