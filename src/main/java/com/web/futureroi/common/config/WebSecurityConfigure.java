@@ -4,17 +4,12 @@ import com.web.futureroi.common.exception.JwtExceptionFilter;
 import com.web.futureroi.jwt.JwtAuthenticationFilter;
 import com.web.futureroi.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -45,9 +40,9 @@ public class WebSecurityConfigure {
 
         //요청에 대한 권한 설정
         http.authorizeHttpRequests()
-//                .requestMatchers(
-//                        new AntPathRequestMatcher("/**")).permitAll()
-                .requestMatchers("/auth/*","/auth/login/test", "/auth/regenerateToken").permitAll()
+                .requestMatchers(
+                        new AntPathRequestMatcher("/**")).permitAll()
+//                .requestMatchers("/swagger-ui/*","/auth/*","/auth/login/test", "/auth/regenerateToken").permitAll()
                 .anyRequest().authenticated();
 
         http.logout()
