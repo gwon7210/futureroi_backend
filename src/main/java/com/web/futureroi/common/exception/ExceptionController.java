@@ -18,6 +18,13 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 @RestControllerAdvice
 public class ExceptionController extends CommController {
 
+
+    @ExceptionHandler
+    public ResponseEntity baseException(BaseException e) {
+        e.printStackTrace();
+        return ErrorReturn(e.getStatus());
+    }
+
     // 알 수 없는 에러 체크
     @ExceptionHandler
     public ResponseEntity exception(Exception e) {
