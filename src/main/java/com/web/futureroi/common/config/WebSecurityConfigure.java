@@ -42,7 +42,7 @@ public class WebSecurityConfigure {
         http.authorizeHttpRequests()
                 .requestMatchers(
                         new AntPathRequestMatcher("/**")).permitAll()
-//                .requestMatchers("/swagger-ui/*","/auth/*","/auth/login/test", "/auth/regenerateToken").permitAll()
+//                .requestMatchers("/swagger-ui/*","/auth/*","/auth/login/sample", "/auth/regenerateToken").permitAll()
                 .anyRequest().authenticated();
 
         http.logout()

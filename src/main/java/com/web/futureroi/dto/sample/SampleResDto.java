@@ -1,4 +1,4 @@
-package com.web.futureroi.dto.notice;
+package com.web.futureroi.dto.sample;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.web.futureroi.domain.notice.Notice;
@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Schema(description = "공지사항 리스트 응답Dto")
 @Getter
-public class NoticeResDto {
+public class SampleResDto {
     @Schema(description = "공지사항id")
     private Long noticeId;
 
@@ -22,7 +22,7 @@ public class NoticeResDto {
     @JsonFormat(pattern = "yy/MM/dd", timezone = "Asia/Seoul")
     private LocalDateTime registerDate;
 
-    public NoticeResDto(Notice entity){
+    public SampleResDto(Notice entity){
         this.noticeId = entity.getNoticeId();
         this.title = entity.getTitle();
         this.content = entity.getContent();
