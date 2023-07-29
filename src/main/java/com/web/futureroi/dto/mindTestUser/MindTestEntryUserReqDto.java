@@ -9,11 +9,9 @@ import lombok.Setter;
 @Setter
 public class MindTestEntryUserReqDto {
 
-    @Schema(description = "심리검사 엔트리 Id")
+    @Schema(description = "mindTest Id")
+    private Long mindTestId;
+
+    @Schema(description = "mindTest Entry Id")
     private Long mindTestEntryId;
-
-//    public MindTestEntryUserReqDto(MindTestEntryUser entity){
-//        this.mindTestEntryId = entity.getMind_test_entry_id();
-//    }
-
 }

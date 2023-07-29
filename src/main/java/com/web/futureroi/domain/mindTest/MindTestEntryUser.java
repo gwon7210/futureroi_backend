@@ -21,5 +21,8 @@ public class MindTestEntryUser extends RegisterDateBaseTimeEntity {
     private String uuid;
 
     @Id
+    private Long mindTestId;
+
+    @Id
     private Long mindTestEntryId;
 }

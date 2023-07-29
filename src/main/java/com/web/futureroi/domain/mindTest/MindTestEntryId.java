@@ -2,16 +2,13 @@ package com.web.futureroi.domain.mindTest;
 
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 import java.io.Serializable;
 
 
 @Data
 @Embeddable
-public class MindTestEntryUserId implements Serializable {
-
-    @Column
-    private String uuid;
+public class MindTestEntryId implements Serializable {
 
     @Column
     private Long mindTestId;

@@ -24,6 +24,7 @@ public class MindTestEntryUserService {
         List<MindTestEntryUser> mindTestEntryUsers = reqDtoList.stream().
                 map(resDto -> MindTestEntryUser.builder()
                         .uuid(uuid)
+                        .mindTestId(resDto.getMindTestId())
                         .mindTestEntryId(resDto.getMindTestEntryId())
                         .build()).collect(Collectors.toList());
 

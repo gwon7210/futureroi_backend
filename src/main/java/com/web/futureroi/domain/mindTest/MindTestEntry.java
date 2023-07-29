@@ -10,7 +10,12 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@IdClass(MindTestEntryId.class)
 public class MindTestEntry extends RegisterDateBaseTimeEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long mindTestId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
