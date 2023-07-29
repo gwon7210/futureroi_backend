@@ -24,5 +24,4 @@ public class DayToDoList extends RegisterDateBaseTimeEntity {
     private String content;
     private String isFinished;
     private String dayToDoListOrder;
-    private String registerDate;
 }

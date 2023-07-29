@@ -19,8 +19,7 @@ public class DayDiary extends RegisterDateBaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long day_diary_id;
+    private Long daDiaryId;
     private String uuid;
     private String content;
-    private String registerDate;
 }
