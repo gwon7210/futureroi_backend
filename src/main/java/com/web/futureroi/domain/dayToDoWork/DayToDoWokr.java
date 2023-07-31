@@ -1,4 +1,4 @@
-package com.web.futureroi.domain.dayToDoList;
+package com.web.futureroi.domain.dayToDoWork;
 
 import com.web.futureroi.common.RegisterDateBaseTimeEntity;
 import jakarta.persistence.Entity;
@@ -15,11 +15,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Getter
-public class DayToDoList extends RegisterDateBaseTimeEntity {
+public class DayToDoWokr extends RegisterDateBaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long dayToDoListId;
+    private Long dayToDoWorkId;
     private String uuid;
     private String content;
     private String isFinished;

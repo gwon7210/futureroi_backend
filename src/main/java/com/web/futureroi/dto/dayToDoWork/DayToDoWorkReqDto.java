@@ -1,14 +1,13 @@
-package com.web.futureroi.dto.dayToDoList;
+package com.web.futureroi.dto.dayToDoWork;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
-@Schema(description = "사용자 심리검사 저장Dto")
+@Schema(description = "사용자 오늘 할일 저장Dto")
 @Getter
-public class DayToDoListReqDto {
+public class DayToDoWorkReqDto {
 
-
-    @Schema(description = "content")
+    @Schema(description = "내용")
     private String content;
 
     @Schema(description = "완료 여부")

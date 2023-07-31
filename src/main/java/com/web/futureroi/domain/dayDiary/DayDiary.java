@@ -15,11 +15,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Getter
-public class DayDiary extends RegisterDateBaseTimeEntity {
+public class DayDiary {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long daDiaryId;
+    private Long dayDiaryId;
+
     private String uuid;
+
     private String content;
+
+    private String date;
+
 }
