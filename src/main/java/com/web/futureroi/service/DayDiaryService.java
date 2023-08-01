@@ -1,6 +1,8 @@
 package com.web.futureroi.service;
 
 
+import com.web.futureroi.common.code.ApiCode;
+import com.web.futureroi.common.exception.BaseException;
 import com.web.futureroi.domain.dayDiary.DayDiary;
 import com.web.futureroi.domain.dayToDoWork.DayToDoWokr;
 import com.web.futureroi.domain.member.Member;
@@ -27,9 +29,8 @@ public class DayDiaryService {
     private final DayDiaryRepository dayDiaryRepository;
 
 
-    public DayDiaryResDto findDayDiary(String uuid, String date){
-        return new DayDiaryResDto(dayDiaryRepository.findByUuidAndDate(uuid,date));
-
+    public DayDiaryResDto findDayDiary(String uuid, String date) throws BaseException {
+        return new DayDiaryResDto(dayDiaryRepository.findByUuidAndDate(uuid,date).orElseThrow(() -> new BaseException(ApiCode.DATA_NOT_FOUND)));
     }
 
 

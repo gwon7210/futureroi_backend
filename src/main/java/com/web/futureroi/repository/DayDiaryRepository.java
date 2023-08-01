@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface DayDiaryRepository extends JpaRepository<DayDiary, Long> {
 
-    DayDiary findByUuidAndDate(String uuid, String date);
+    Optional<DayDiary> findByUuidAndDate(String uuid, String date);
 
     void deleteAllByUuidAndDate(String uuid, String date);
 

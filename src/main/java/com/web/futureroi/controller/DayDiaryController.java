@@ -2,6 +2,7 @@ package com.web.futureroi.controller;
 
 
 import com.web.futureroi.common.CommController;
+import com.web.futureroi.common.exception.BaseException;
 import com.web.futureroi.dto.dayDiary.DayDiaryReqDto;
 import com.web.futureroi.dto.dayDiary.DayDiaryResDto;
 import com.web.futureroi.dto.sample.SampleResDto;
@@ -28,7 +29,7 @@ public class DayDiaryController extends CommController {
 
     @Operation(summary = "사용자 매일 일기 조회",responses = {@ApiResponse(content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = DayDiaryResDto.class))))})
     @GetMapping("/{date}")
-    public ResponseEntity findDayDiary(@AuthenticationPrincipal User user, @PathVariable String date){
+    public ResponseEntity findDayDiary(@AuthenticationPrincipal User user, @PathVariable String date) throws BaseException {
         String uuid = user.getUsername();
         return SuccessReturn(dayDiaryService.findDayDiary(uuid,date));
     }
