@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface DayToDoWorkRepository extends JpaRepository<DayToDoWokr, Long> {
 
-    Optional<DayToDoWokr> findByUuid(String uuid);
+    Optional<DayToDoWokr> findByUuidAndDate(String uuid,String Date);
 }

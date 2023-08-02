@@ -2,9 +2,11 @@ package com.web.futureroi.controller;
 
 
 import com.web.futureroi.common.CommController;
+import com.web.futureroi.common.exception.BaseException;
+import com.web.futureroi.dto.dayToDoWork.DayToDoWorkReqDto;
 import com.web.futureroi.dto.dayToDoWork.DayToDoWorkResDto;
-import com.web.futureroi.dto.sample.SampleResDto;
-import com.web.futureroi.service.SampleService;
+import com.web.futureroi.dto.dayToDoWork.UpdateDayToDoWorkReqDto;
+import com.web.futureroi.service.DayToDoWorkService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -13,9 +15,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "DayToDoWork", description = "매일 할일 API")
 @RestController
@@ -23,12 +27,28 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/daytodowork")
 public class DayToDoWorkController extends CommController {
 
-    private final SampleService sampleService;
+    private final DayToDoWorkService dayToDoWorkService;
 
-@Operation(summary = "매일 할일 조회", description = "매일 할일 list를 반환합니다.", responses = {
-        @ApiResponse(content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = DayToDoWorkResDto.class))))})
-    @GetMapping("")
-    public ResponseEntity findDayToDoWorks(){
-        return SuccessReturn(sampleService.getNotices());
+    @Operation(summary = "매일 할일 조회", description = "매일 할일 list를 반환합니다.", responses = {@ApiResponse(content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = DayToDoWorkResDto.class))))})
+    @GetMapping()
+    public ResponseEntity findDayToDoWorks(@AuthenticationPrincipal User user, @PathVariable String date) throws BaseException {
+    String uuid = user.getUsername();
+    return SuccessReturn(dayToDoWorkService.getDayToDoWorks(uuid,date));}
+
+    @Operation(summary = "사용자 매일 할일 저장", responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = DayToDoWorkReqDto.class)))})
+    @PostMapping()
+    public ResponseEntity saveDayToDoWorks(@AuthenticationPrincipal User user, @RequestBody List<DayToDoWorkReqDto> reqDtos) {
+        String uuid = user.getUsername();
+        return SuccessReturn(dayToDoWorkService.saveDayToDoWorks(uuid, reqDtos));
     }
+
+    @Operation(summary = "사용자 매일 할일 수정", responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = DayToDoWorkReqDto.class)))})
+    @PostMapping()
+    public ResponseEntity updateDayToDoWorks(@AuthenticationPrincipal User user, @RequestBody List<UpdateDayToDoWorkReqDto> reqDtos) {
+        String uuid = user.getUsername();
+        return SuccessReturn(dayToDoWorkService.updateDayToDoWorks(uuid, reqDtos));
+    }
+
+
+
 }
