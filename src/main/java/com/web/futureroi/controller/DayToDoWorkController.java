@@ -30,16 +30,16 @@ public class DayToDoWorkController extends CommController {
     private final DayToDoWorkService dayToDoWorkService;
 
     @Operation(summary = "매일 할일 조회", description = "매일 할일 list를 반환합니다.", responses = {@ApiResponse(content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = DayToDoWorkResDto.class))))})
-    @GetMapping()
+    @GetMapping("/{date}")
     public ResponseEntity findDayToDoWorks(@AuthenticationPrincipal User user, @PathVariable String date) throws BaseException {
     String uuid = user.getUsername();
     return SuccessReturn(dayToDoWorkService.getDayToDoWorks(uuid,date));}
 
     @Operation(summary = "사용자 매일 할일 저장", responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = DayToDoWorkReqDto.class)))})
-    @PostMapping()
-    public ResponseEntity saveDayToDoWorks(@AuthenticationPrincipal User user, @RequestBody List<DayToDoWorkReqDto> reqDtos) {
+    @PostMapping("/{date}")
+    public ResponseEntity saveDayToDoWorks(@AuthenticationPrincipal User user, @PathVariable String date, @RequestBody List<DayToDoWorkReqDto> reqDtos) {
         String uuid = user.getUsername();
-        return SuccessReturn(dayToDoWorkService.saveDayToDoWorks(uuid, reqDtos));
+        return SuccessReturn(dayToDoWorkService.saveDayToDoWorks(uuid, date, reqDtos));
     }
 
     @Operation(summary = "사용자 매일 할일 수정", responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = DayToDoWorkReqDto.class)))})

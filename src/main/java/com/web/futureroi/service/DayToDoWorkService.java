@@ -36,13 +36,14 @@ public class DayToDoWorkService {
         return dayToDoWorkResDtos;
     }
 
-    public int saveDayToDoWorks(String uuid, List<DayToDoWorkReqDto> dayToDoWorkReqDtos) {
+    public int saveDayToDoWorks(String uuid, String date, List<DayToDoWorkReqDto> dayToDoWorkReqDtos) {
 
         List<DayToDoWokr> dayToDoWokrs = dayToDoWorkReqDtos.stream().
                 map(resDto -> DayToDoWokr.builder()
                         .uuid(uuid)
                         .content(resDto.getContent())
                         .dayToDoListOrder(resDto.getDayToDoListOrder())
+                        .date(date)
                         .build()).collect(Collectors.toList());
 
         dayToDoWorkRepository.saveAll(dayToDoWokrs);

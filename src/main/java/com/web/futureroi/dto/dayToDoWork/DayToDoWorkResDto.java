@@ -24,11 +24,16 @@ public class DayToDoWorkResDto {
     @Schema(description = "순서")
     private String dayToDoListOrder;
 
+    @Schema(description = "날짜")
+    private String date;
+
+
     public DayToDoWorkResDto(DayToDoWokr entity){
         this.dayToDoWorkId = entity.getDayToDoWorkId();
         this.uuid = entity.getIsFinished();
         this.content = entity.getDayToDoListOrder();
         this.is_finished = entity.getDayToDoListOrder();
         this.dayToDoListOrder = entity.getDayToDoListOrder();
+        this.date = entity.getDate();
     }
 }

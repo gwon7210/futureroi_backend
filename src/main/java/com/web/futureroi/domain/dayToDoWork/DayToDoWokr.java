@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Getter
-public class DayToDoWokr extends RegisterDateBaseTimeEntity {
+public class DayToDoWokr {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,4 +24,5 @@ public class DayToDoWokr extends RegisterDateBaseTimeEntity {
     private String content;
     private String isFinished;
     private String dayToDoListOrder;
+    private String date;
 }
