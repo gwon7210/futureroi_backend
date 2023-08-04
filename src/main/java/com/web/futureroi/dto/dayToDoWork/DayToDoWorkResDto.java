@@ -1,6 +1,6 @@
 package com.web.futureroi.dto.dayToDoWork;
 
-import com.web.futureroi.domain.dayToDoWork.DayToDoWokr;
+import com.web.futureroi.domain.dayToDoWork.DayToDoWork;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
@@ -22,18 +22,18 @@ public class DayToDoWorkResDto {
     private String is_finished;
 
     @Schema(description = "순서")
-    private String dayToDoListOrder;
+    private String dayToDoWorkOrder;
 
     @Schema(description = "날짜")
     private String date;
 
 
-    public DayToDoWorkResDto(DayToDoWokr entity){
+    public DayToDoWorkResDto(DayToDoWork entity){
         this.dayToDoWorkId = entity.getDayToDoWorkId();
         this.uuid = entity.getIsFinished();
-        this.content = entity.getDayToDoListOrder();
-        this.is_finished = entity.getDayToDoListOrder();
-        this.dayToDoListOrder = entity.getDayToDoListOrder();
+        this.content = entity.getContent();
+        this.is_finished = entity.getIsFinished();
+        this.dayToDoWorkOrder = entity.getDayToDoWorkOrder();
         this.date = entity.getDate();
     }
 }

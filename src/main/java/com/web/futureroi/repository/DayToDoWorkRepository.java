@@ -1,12 +1,15 @@
 package com.web.futureroi.repository;
 
-import com.web.futureroi.domain.dayToDoWork.DayToDoWokr;
-import com.web.futureroi.domain.member.Member;
+import com.web.futureroi.domain.dayToDoWork.DayToDoWork;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface DayToDoWorkRepository extends JpaRepository<DayToDoWokr, Long> {
+public interface DayToDoWorkRepository extends JpaRepository<DayToDoWork, Long> {
 
-    Optional<DayToDoWokr> findByUuidAndDate(String uuid,String Date);
+    Optional<DayToDoWork> findByUuidAndDate(String uuid, String Date);
+
+    void deleteAllByUuidAndDate(String uuid, String date);
+
+
 }

@@ -2,9 +2,7 @@ package com.web.futureroi.service;
 
 import com.web.futureroi.common.code.ApiCode;
 import com.web.futureroi.common.exception.BaseException;
-import com.web.futureroi.domain.dayToDoWork.DayToDoWokr;
-import com.web.futureroi.dto.dayDiary.DayDiaryReqDto;
-import com.web.futureroi.dto.dayDiary.DayDiaryResDto;
+import com.web.futureroi.domain.dayToDoWork.DayToDoWork;
 import com.web.futureroi.dto.dayToDoWork.DayToDoWorkReqDto;
 import com.web.futureroi.dto.dayToDoWork.DayToDoWorkResDto;
 import com.web.futureroi.dto.dayToDoWork.UpdateDayToDoWorkReqDto;
@@ -12,6 +10,8 @@ import com.web.futureroi.repository.DayToDoWorkRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,35 +36,37 @@ public class DayToDoWorkService {
         return dayToDoWorkResDtos;
     }
 
+    @Transactional
     public int saveDayToDoWorks(String uuid, String date, List<DayToDoWorkReqDto> dayToDoWorkReqDtos) {
-
-        List<DayToDoWokr> dayToDoWokrs = dayToDoWorkReqDtos.stream().
-                map(resDto -> DayToDoWokr.builder()
+        dayToDoWorkRepository.deleteAllByUuidAndDate(uuid, date);
+        List<DayToDoWork> dayToDoWorks = dayToDoWorkReqDtos.stream().
+                map(resDto -> DayToDoWork.builder()
                         .uuid(uuid)
                         .content(resDto.getContent())
-                        .dayToDoListOrder(resDto.getDayToDoListOrder())
+                        .dayToDoWorkOrder(resDto.getDayToDoWorkOrder())
                         .date(date)
+                        .isFinished("0")
                         .build()).collect(Collectors.toList());
 
-        dayToDoWorkRepository.saveAll(dayToDoWokrs);
+        dayToDoWorkRepository.saveAll(dayToDoWorks);
 
-        return dayToDoWokrs.size();
+        return dayToDoWorks.size();
     }
+//date값 받지 않고 처리하기
+    public int updateDayToDoWorks(String uuid, String date,  List<UpdateDayToDoWorkReqDto> updateDayToDoWorkReqDtos) {
 
-    public int updateDayToDoWorks(String uuid, List<UpdateDayToDoWorkReqDto> updateDayToDoWorkReqDtos) {
-
-        List<DayToDoWokr> dayToDoWokrs = updateDayToDoWorkReqDtos.stream().
-                map(resDto -> DayToDoWokr.builder()
+        List<DayToDoWork> dayToDoWorks = updateDayToDoWorkReqDtos.stream().
+                map(resDto -> DayToDoWork.builder()
                         .dayToDoWorkId(resDto.getDayToDoWorkId())
                         .uuid(uuid)
+                        .date(date)
                         .content(resDto.getContent())
-                        .dayToDoListOrder(resDto.getDayToDoListOrder())
-                        .isFinished(resDto.getIs_finished())
+                        .dayToDoWorkOrder(resDto.getDayToDoWorkOrder())
                         .build()).collect(Collectors.toList());
 
-        dayToDoWorkRepository.saveAll(dayToDoWokrs);
+        dayToDoWorkRepository.saveAll(dayToDoWorks);
 
-        return dayToDoWokrs.size();
+        return dayToDoWorks.size();
     }
 
 

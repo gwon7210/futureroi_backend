@@ -1,6 +1,5 @@
 package com.web.futureroi.domain.dayToDoWork;
 
-import com.web.futureroi.common.RegisterDateBaseTimeEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Getter
-public class DayToDoWokr {
+public class DayToDoWork {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +22,6 @@ public class DayToDoWokr {
     private String uuid;
     private String content;
     private String isFinished;
-    private String dayToDoListOrder;
+    private String dayToDoWorkOrder;
     private String date;
 }

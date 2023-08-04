@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "DayToDoWork", description = "매일 할일 API")
+@Tag(name = "dayToDoWork", description = "매일 할일 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/daytodowork")
@@ -42,12 +42,12 @@ public class DayToDoWorkController extends CommController {
         return SuccessReturn(dayToDoWorkService.saveDayToDoWorks(uuid, date, reqDtos));
     }
 
-    @Operation(summary = "사용자 매일 할일 수정", responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = DayToDoWorkReqDto.class)))})
-    @PostMapping()
-    public ResponseEntity updateDayToDoWorks(@AuthenticationPrincipal User user, @RequestBody List<UpdateDayToDoWorkReqDto> reqDtos) {
-        String uuid = user.getUsername();
-        return SuccessReturn(dayToDoWorkService.updateDayToDoWorks(uuid, reqDtos));
-    }
+//    @Operation(summary = "사용자 매일 할일 수정", responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = DayToDoWorkReqDto.class)))})
+//    @PutMapping("/{date}")
+//    public ResponseEntity updateDayToDoWorks(@AuthenticationPrincipal User user, @PathVariable String date, @RequestBody List<UpdateDayToDoWorkReqDto> reqDtos) {
+//        String uuid = user.getUsername();
+//        return SuccessReturn(dayToDoWorkService.updateDayToDoWorks(uuid, date, reqDtos));
+//    }
 
 
 

@@ -11,5 +11,5 @@ public class DayToDoWorkReqDto {
     private String content;
 
     @Schema(description = "순서")
-    private String dayToDoListOrder;
+    private String dayToDoWorkOrder;
 }

@@ -13,9 +13,6 @@ public class UpdateDayToDoWorkReqDto {
     @Schema(description = "내용")
     private String content;
 
-    @Schema(description = "완료 여부")
-    private String is_finished;
-
     @Schema(description = "순서")
-    private String dayToDoListOrder;
+    private String dayToDoWorkOrder;
 }
