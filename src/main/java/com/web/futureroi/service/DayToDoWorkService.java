@@ -6,13 +6,12 @@ import com.web.futureroi.domain.dayToDoWork.DayToDoWork;
 import com.web.futureroi.dto.dayToDoWork.DayToDoWorkReqDto;
 import com.web.futureroi.dto.dayToDoWork.DayToDoWorkResDto;
 import com.web.futureroi.dto.dayToDoWork.UpdateDayToDoWorkReqDto;
+import com.web.futureroi.dto.dayToDoWork.UpdateIsFinishedReqDto;
 import com.web.futureroi.repository.DayToDoWorkRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,23 +51,49 @@ public class DayToDoWorkService {
 
         return dayToDoWorks.size();
     }
-//date값 받지 않고 처리하기
-    public int updateDayToDoWorks(String uuid, String date,  List<UpdateDayToDoWorkReqDto> updateDayToDoWorkReqDtos) {
 
-        List<DayToDoWork> dayToDoWorks = updateDayToDoWorkReqDtos.stream().
-                map(resDto -> DayToDoWork.builder()
-                        .dayToDoWorkId(resDto.getDayToDoWorkId())
-                        .uuid(uuid)
-                        .date(date)
-                        .content(resDto.getContent())
-                        .dayToDoWorkOrder(resDto.getDayToDoWorkOrder())
-                        .build()).collect(Collectors.toList());
+    @Transactional
+    public int updateDayToDoWorks(List<UpdateDayToDoWorkReqDto> updateDayToDoWorkReqDtos) {
+
+        List<Long> dayToDoWorkIds = updateDayToDoWorkReqDtos.stream()
+                .map(UpdateDayToDoWorkReqDto::getDayToDoWorkId)
+                .collect(Collectors.toList());
+
+        List<DayToDoWork> dayToDoWorks = dayToDoWorkRepository.findAllById(dayToDoWorkIds);
+
+        for(DayToDoWork dayToDoWork : dayToDoWorks){
+            for(UpdateDayToDoWorkReqDto updateDayToDoWorkReqDto : updateDayToDoWorkReqDtos){
+                if(dayToDoWork.getDayToDoWorkId() == updateDayToDoWorkReqDto.getDayToDoWorkId()){
+                    dayToDoWork.update(updateDayToDoWorkReqDto);
+                }
+            }
+        }
 
         dayToDoWorkRepository.saveAll(dayToDoWorks);
 
         return dayToDoWorks.size();
     }
 
+    @Transactional
+    public int updateIsFinished(List<UpdateIsFinishedReqDto> updateIsFinishedReqDtos) {
 
+        List<Long> dayToDoWorkIds = updateIsFinishedReqDtos.stream()
+                .map(UpdateIsFinishedReqDto::getDayToDoWorkId)
+                .collect(Collectors.toList());
+
+        List<DayToDoWork> dayToDoWorks = dayToDoWorkRepository.findAllById(dayToDoWorkIds);
+
+        for(DayToDoWork dayToDoWork : dayToDoWorks){
+            for(UpdateIsFinishedReqDto updateDto : updateIsFinishedReqDtos){
+                if(dayToDoWork.getDayToDoWorkId() == updateDto.getDayToDoWorkId()){
+                    dayToDoWork.updateIsFinished(updateDto);
+                }
+            }
+        }
+
+        dayToDoWorkRepository.saveAll(dayToDoWorks);
+
+        return dayToDoWorks.size();
+    }
 
 }

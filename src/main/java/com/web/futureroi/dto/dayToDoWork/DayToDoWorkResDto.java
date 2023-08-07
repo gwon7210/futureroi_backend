@@ -12,9 +12,6 @@ public class DayToDoWorkResDto {
     @Schema(description = "ID")
     private Long dayToDoWorkId;
 
-    @Schema(description = "UUID")
-    private String uuid;
-
     @Schema(description = "내용")
     private String content;
 
@@ -30,7 +27,6 @@ public class DayToDoWorkResDto {
 
     public DayToDoWorkResDto(DayToDoWork entity){
         this.dayToDoWorkId = entity.getDayToDoWorkId();
-        this.uuid = entity.getIsFinished();
         this.content = entity.getContent();
         this.is_finished = entity.getIsFinished();
         this.dayToDoWorkOrder = entity.getDayToDoWorkOrder();

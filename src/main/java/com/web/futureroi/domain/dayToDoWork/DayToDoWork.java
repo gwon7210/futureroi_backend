@@ -1,5 +1,7 @@
 package com.web.futureroi.domain.dayToDoWork;
 
+import com.web.futureroi.dto.dayToDoWork.UpdateDayToDoWorkReqDto;
+import com.web.futureroi.dto.dayToDoWork.UpdateIsFinishedReqDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,4 +26,17 @@ public class DayToDoWork {
     private String isFinished;
     private String dayToDoWorkOrder;
     private String date;
+
+    public DayToDoWork update(UpdateDayToDoWorkReqDto reqDto) {
+        this.dayToDoWorkId = reqDto.getDayToDoWorkId();
+        this.content = reqDto.getContent();
+        return this;
+    }
+
+    public DayToDoWork updateIsFinished(UpdateIsFinishedReqDto reqDto) {
+        this.dayToDoWorkId = reqDto.getDayToDoWorkId();
+        this.isFinished = reqDto.getIsFinished();
+        return this;
+    }
+
 }

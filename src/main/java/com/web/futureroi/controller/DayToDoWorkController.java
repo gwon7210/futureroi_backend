@@ -6,6 +6,7 @@ import com.web.futureroi.common.exception.BaseException;
 import com.web.futureroi.dto.dayToDoWork.DayToDoWorkReqDto;
 import com.web.futureroi.dto.dayToDoWork.DayToDoWorkResDto;
 import com.web.futureroi.dto.dayToDoWork.UpdateDayToDoWorkReqDto;
+import com.web.futureroi.dto.dayToDoWork.UpdateIsFinishedReqDto;
 import com.web.futureroi.service.DayToDoWorkService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -42,13 +43,16 @@ public class DayToDoWorkController extends CommController {
         return SuccessReturn(dayToDoWorkService.saveDayToDoWorks(uuid, date, reqDtos));
     }
 
-//    @Operation(summary = "사용자 매일 할일 수정", responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = DayToDoWorkReqDto.class)))})
-//    @PutMapping("/{date}")
-//    public ResponseEntity updateDayToDoWorks(@AuthenticationPrincipal User user, @PathVariable String date, @RequestBody List<UpdateDayToDoWorkReqDto> reqDtos) {
-//        String uuid = user.getUsername();
-//        return SuccessReturn(dayToDoWorkService.updateDayToDoWorks(uuid, date, reqDtos));
-//    }
+    @Operation(summary = "사용자 매일 할일 수정", responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = DayToDoWorkReqDto.class)))})
+    @PutMapping()
+    public ResponseEntity updateDayToDoWorks(@AuthenticationPrincipal User user, @RequestBody List<UpdateDayToDoWorkReqDto> reqDtos) {
+        return SuccessReturn(dayToDoWorkService.updateDayToDoWorks(reqDtos));
+    }
 
-
+    @Operation(summary = "사용자 매일 할일 완료 수정", responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = UpdateIsFinishedReqDto.class)))})
+    @PutMapping("/isfinished")
+    public ResponseEntity updateIsFinished(@AuthenticationPrincipal User user, @RequestBody List<UpdateIsFinishedReqDto> reqDtos) {
+        return SuccessReturn(dayToDoWorkService.updateIsFinished(reqDtos));
+    }
 
 }
