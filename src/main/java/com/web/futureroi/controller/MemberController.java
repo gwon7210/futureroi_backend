@@ -39,7 +39,7 @@ public class MemberController extends CommController {
     }
 
     @Operation(summary = "챗봇 온보딩 여부 업데이트", responses = {@ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MemberIsFirstChatbotReqDto.class)))})
-    @PutMapping()
+    @PutMapping("isfirstchatbot")
     public ResponseEntity modifyIsFirstChatbot(@AuthenticationPrincipal User user, @RequestBody MemberIsFirstChatbotReqDto reqDto){
         reqDto.setUuid(user.getUsername());
         return SuccessReturn(memberService.modifyIsFirstChatbot(reqDto));
