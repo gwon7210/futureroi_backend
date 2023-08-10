@@ -13,7 +13,7 @@ public class MemberIsFirstChatbotReqDto {
     @Schema(description = "맴버 키", hidden = true)
     private String uuid;
 
-    @Schema(description = "닉네임")
+    @Schema(description = "챗봇 최초 실행 여부")
     private String isFirstChatbot;
 
 

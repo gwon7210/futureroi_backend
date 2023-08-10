@@ -15,7 +15,6 @@ public class MemberInfoResDto {
     private String gender;
     private String birth;
     private String nickName;
-
     private String isFirstChatbot;
 
     public MemberInfoResDto(Member member){
