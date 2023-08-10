@@ -1,9 +1,7 @@
 package com.web.futureroi.dto.member;
 
-import com.web.futureroi.domain.member.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,13 +19,8 @@ public class MemberModifyReqDto {
     private String gender;
     @Schema(description = "생일", nullable = true)
     private String birth;
+    @Schema(description = "닉네임", nullable = true)
+    private String nickName;
 
-    public Member toEntity() {
-        return Member.builder()
-                .uuid(uuid)
-                .job(job)
-                .gender(gender)
-                .birth(birth)
-                .build();
-    }
+
 }

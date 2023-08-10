@@ -2,6 +2,7 @@ package com.web.futureroi.service;
 
 import com.web.futureroi.domain.member.Member;
 import com.web.futureroi.dto.member.MemberInfoResDto;
+import com.web.futureroi.dto.member.MemberIsFirstChatbotReqDto;
 import com.web.futureroi.dto.member.MemberModifyReqDto;
 import com.web.futureroi.enums.Role;
 import com.web.futureroi.repository.MemberRepository;
@@ -19,6 +20,10 @@ public class MemberService {
 
     public Member modifyMemberInfo(MemberModifyReqDto reqDto) {
         return memberRepository.save(getMember(reqDto.getUuid()).modify(reqDto));
+    }
+
+    public Member modifyIsFirstChatbot(MemberIsFirstChatbotReqDto reqDto) {
+        return memberRepository.save(getMember(reqDto.getUuid()).modifyIsFirstChatbot(reqDto));
     }
 
     public Member registerMember(String uuid, String authProvider, String email) {

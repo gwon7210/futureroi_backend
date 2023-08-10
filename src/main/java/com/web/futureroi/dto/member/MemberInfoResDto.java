@@ -9,16 +9,14 @@ public class MemberInfoResDto {
 
     private String uuid;
     private String email;
-
     private String authProvider;
-
     private Role role;
-
     private String job;
-
     private String gender;
-
     private String birth;
+    private String nickName;
+
+    private String isFirstChatbot;
 
     public MemberInfoResDto(Member member){
         this.uuid = member.getUuid();
@@ -28,6 +26,7 @@ public class MemberInfoResDto {
         this.job = member.getJob();
         this.gender = member.getGender();
         this.birth = member.getBirth();
-
+        this.nickName = member.getNickName();
+        this.isFirstChatbot = member.getIsFirstChatbot();
     }
 }
