@@ -43,16 +43,18 @@ public class DayToDoWorkController extends CommController {
         return SuccessReturn(dayToDoWorkService.saveDayToDoWorks(uuid, date, reqDtos));
     }
 
-    @Operation(summary = "사용자 매일 할일 수정", responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = DayToDoWorkReqDto.class)))})
-    @PutMapping()
-    public ResponseEntity updateDayToDoWorks(@AuthenticationPrincipal User user, @RequestBody List<UpdateDayToDoWorkReqDto> reqDtos) {
-        return SuccessReturn(dayToDoWorkService.updateDayToDoWorks(reqDtos));
-    }
-
     @Operation(summary = "사용자 매일 할일 완료 수정", responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = UpdateIsFinishedReqDto.class)))})
     @PutMapping("/isfinished")
-    public ResponseEntity updateIsFinished(@AuthenticationPrincipal User user, @RequestBody List<UpdateIsFinishedReqDto> reqDtos) {
+    public ResponseEntity updateIsFinished(@AuthenticationPrincipal User user, @RequestBody UpdateIsFinishedReqDto reqDtos) throws BaseException {
         return SuccessReturn(dayToDoWorkService.updateIsFinished(reqDtos));
     }
+
+    //    @Operation(summary = "사용자 매일 할일 수정", responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = DayToDoWorkReqDto.class)))})
+//    @PutMapping()
+//    public ResponseEntity updateDayToDoWorks(@AuthenticationPrincipal User user, @RequestBody List<UpdateDayToDoWorkReqDto> reqDtos) {
+//        return SuccessReturn(dayToDoWorkService.updateDayToDoWorks(reqDtos));
+//    }
+//
+
 
 }

@@ -12,4 +12,8 @@ public class DayToDoWorkReqDto {
 
     @Schema(description = "순서")
     private String dayToDoWorkOrder;
+
+    @Schema(description = "완료 여부")
+    private String isFinished = "0";
+
 }

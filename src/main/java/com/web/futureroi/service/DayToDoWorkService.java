@@ -3,6 +3,7 @@ package com.web.futureroi.service;
 import com.web.futureroi.common.code.ApiCode;
 import com.web.futureroi.common.exception.BaseException;
 import com.web.futureroi.domain.dayToDoWork.DayToDoWork;
+import com.web.futureroi.domain.member.Member;
 import com.web.futureroi.dto.dayToDoWork.DayToDoWorkReqDto;
 import com.web.futureroi.dto.dayToDoWork.DayToDoWorkResDto;
 import com.web.futureroi.dto.dayToDoWork.UpdateDayToDoWorkReqDto;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -24,11 +26,11 @@ public class DayToDoWorkService {
 
     public List<DayToDoWorkResDto> getDayToDoWorks(String uuid, String date) throws BaseException {
 
-        List<DayToDoWorkResDto> dayToDoWorkResDtos = dayToDoWorkRepository.findByUuidAndDate(uuid,date).stream()
+        List<DayToDoWorkResDto> dayToDoWorkResDtos = dayToDoWorkRepository.findByUuidAndDate(uuid, date).stream()
                 .map(DayToDoWorkResDto::new)
                 .collect(Collectors.toList());
 
-        if(dayToDoWorkResDtos == null || dayToDoWorkResDtos.size()<1){
+        if (dayToDoWorkResDtos == null || dayToDoWorkResDtos.size() < 1) {
             throw new BaseException(ApiCode.DATA_NOT_FOUND);
         }
 
@@ -38,13 +40,14 @@ public class DayToDoWorkService {
     @Transactional
     public int saveDayToDoWorks(String uuid, String date, List<DayToDoWorkReqDto> dayToDoWorkReqDtos) {
         dayToDoWorkRepository.deleteAllByUuidAndDate(uuid, date);
+
         List<DayToDoWork> dayToDoWorks = dayToDoWorkReqDtos.stream().
                 map(resDto -> DayToDoWork.builder()
                         .uuid(uuid)
                         .content(resDto.getContent())
                         .dayToDoWorkOrder(resDto.getDayToDoWorkOrder())
                         .date(date)
-                        .isFinished("0")
+                        .isFinished(resDto.getIsFinished())
                         .build()).collect(Collectors.toList());
 
         dayToDoWorkRepository.saveAll(dayToDoWorks);
@@ -61,9 +64,9 @@ public class DayToDoWorkService {
 
         List<DayToDoWork> dayToDoWorks = dayToDoWorkRepository.findAllById(dayToDoWorkIds);
 
-        for(DayToDoWork dayToDoWork : dayToDoWorks){
-            for(UpdateDayToDoWorkReqDto updateDayToDoWorkReqDto : updateDayToDoWorkReqDtos){
-                if(dayToDoWork.getDayToDoWorkId() == updateDayToDoWorkReqDto.getDayToDoWorkId()){
+        for (DayToDoWork dayToDoWork : dayToDoWorks) {
+            for (UpdateDayToDoWorkReqDto updateDayToDoWorkReqDto : updateDayToDoWorkReqDtos) {
+                if (dayToDoWork.getDayToDoWorkId() == updateDayToDoWorkReqDto.getDayToDoWorkId()) {
                     dayToDoWork.update(updateDayToDoWorkReqDto);
                 }
             }
@@ -75,25 +78,15 @@ public class DayToDoWorkService {
     }
 
     @Transactional
-    public int updateIsFinished(List<UpdateIsFinishedReqDto> updateIsFinishedReqDtos) {
+    public DayToDoWork updateIsFinished(UpdateIsFinishedReqDto updateIsFinishedReqDtos) throws BaseException {
+        return dayToDoWorkRepository.save(getDayToDoWorks(updateIsFinishedReqDtos.getDayToDoWorkId()).updateIsFinished(updateIsFinishedReqDtos));
 
-        List<Long> dayToDoWorkIds = updateIsFinishedReqDtos.stream()
-                .map(UpdateIsFinishedReqDto::getDayToDoWorkId)
-                .collect(Collectors.toList());
 
-        List<DayToDoWork> dayToDoWorks = dayToDoWorkRepository.findAllById(dayToDoWorkIds);
+    }
 
-        for(DayToDoWork dayToDoWork : dayToDoWorks){
-            for(UpdateIsFinishedReqDto updateDto : updateIsFinishedReqDtos){
-                if(dayToDoWork.getDayToDoWorkId() == updateDto.getDayToDoWorkId()){
-                    dayToDoWork.updateIsFinished(updateDto);
-                }
-            }
-        }
-
-        dayToDoWorkRepository.saveAll(dayToDoWorks);
-
-        return dayToDoWorks.size();
+    public DayToDoWork getDayToDoWorks(Long id) throws BaseException {
+        return dayToDoWorkRepository.findById(id)
+                .orElseThrow(() -> new BaseException(ApiCode.DATA_NOT_FOUND));
     }
 
 }

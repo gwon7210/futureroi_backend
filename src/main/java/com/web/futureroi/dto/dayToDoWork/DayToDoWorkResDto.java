@@ -16,7 +16,7 @@ public class DayToDoWorkResDto {
     private String content;
 
     @Schema(description = "완료 여부")
-    private String is_finished;
+    private String isFinished;
 
     @Schema(description = "순서")
     private String dayToDoWorkOrder;
@@ -28,7 +28,7 @@ public class DayToDoWorkResDto {
     public DayToDoWorkResDto(DayToDoWork entity){
         this.dayToDoWorkId = entity.getDayToDoWorkId();
         this.content = entity.getContent();
-        this.is_finished = entity.getIsFinished();
+        this.isFinished = entity.getIsFinished();
         this.dayToDoWorkOrder = entity.getDayToDoWorkOrder();
         this.date = entity.getDate();
     }
