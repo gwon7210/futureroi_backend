@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "counselor", description = "상담자 조회 API")
@@ -31,7 +32,7 @@ public class CounselorController extends CommController {
     @Operation(summary = "상담자 조회",
             responses = {@ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = CounselorResDto.class))))})
     @GetMapping
-    public ResponseEntity findCounselors(String name) throws BaseException {
+    public ResponseEntity findCounselors(@RequestParam String name) throws BaseException {
         return SuccessReturn(counselorService.findCounselors(name));
     }
 
